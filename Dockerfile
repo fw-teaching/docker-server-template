@@ -14,6 +14,11 @@ RUN apt-get update && \
         sudo \
         nano \
         curl \
+        iproute2 \
+        iputils-ping \
+        net-tools \
+        dnsutils \
+        dialog \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/run/sshd

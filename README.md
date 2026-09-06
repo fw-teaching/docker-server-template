@@ -39,3 +39,9 @@ down`, which throws away everything except your home directory.
 - **Only your home directory persists across a full rebuild.** Everything
   else resets to the image's contents if the container is removed and
   recreated.
+- **`halt`/`reboot`/`poweroff`/`shutdown` don't work.** They rely on an init
+  system (systemd) running as PID 1, which isn't the case here, and
+  containers don't have the privilege to actually halt/reboot anyway. To
+  stop your server, run `docker compose stop` (or `down`) from your host.
+- **No IPv6.** Docker's default network is IPv4-only regardless of your
+  host's own connectivity, so `ping -6` and similar won't work.
