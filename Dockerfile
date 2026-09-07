@@ -34,7 +34,11 @@ RUN useradd -m -s /bin/bash -G sudo "${STUDENT_USER}" && \
     echo "${STUDENT_USER}:${STUDENT_PASSWORD}" | chpasswd
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+# Strip any CR characters (in case the file was checked out with Windows
+# CRLF line endings) and make it executable, so it always runs in the
+# container regardless of the host it was cloned on.
+RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh && \
+    chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 22 80
 
