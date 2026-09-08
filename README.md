@@ -1,4 +1,4 @@
-# docker-server-template
+# tuxbox server template
 
 Your own personal Linux "server" for this course, running as a Docker
 container on your own laptop.
