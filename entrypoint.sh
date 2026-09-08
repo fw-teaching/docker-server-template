@@ -10,6 +10,15 @@ chown -R "${STUDENT_USER}:${STUDENT_USER}" "/home/${STUDENT_USER}"
 # time during the image build, but regenerate defensively).
 ssh-keygen -A
 
+# Unlike other services, cron is started here automatically on every boot -
+# it's expected to just be running in the background, like on a real server.
+service cron start
+
+# apache2 isn't installed by default - students install it themselves as
+# part of the course. Start it if present, but don't fail boot if it isn't
+# (or isn't installed yet).
+service apache2 start 2>/dev/null || true
+
 PORT_SUFFIX=""
 if [ "${SSH_PORT:-22}" != "22" ]; then
     PORT_SUFFIX=" -p ${SSH_PORT}"

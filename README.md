@@ -11,6 +11,13 @@ of this repo, then clone that instead of this one.
 ```
 git clone <your repo's URL>
 cd docker-server-template
+```
+
+Check `.env.example` — if you want to change any of the values, copy it
+to a new file named only `.env` and do your changes there before building
+the container.
+
+```
 docker compose up -d --build
 ```
 
@@ -21,8 +28,7 @@ check with `docker compose logs`. By default it's:
 ssh student@localhost
 ```
 
-Password: `changeme123`. To use your own username/password/port, copy
-`.env.example` to `.env` and edit it before building.
+Password: `changeme123`.
 
 Use `docker compose stop` / `start` to pause/resume — avoid `docker compose
 down`, which throws away everything except your home directory.
@@ -36,9 +42,11 @@ down`, which throws away everything except your home directory.
 - **Firewall tools (`ufw`, `iptables`) won't behave like a real host
   firewall** due to how container networking works, so they're out of
   scope here.
-- **Only your home directory persists across a full rebuild.** Everything
-  else resets to the image's contents if the container is removed and
-  recreated.
+- **Only your home directory and `/var/www` persist across a full
+  rebuild.** Everything else resets to the image's contents if the
+  container is removed and recreated - so e.g. installed packages
+  (`apache2`, etc.) need reinstalling after a rebuild, but web content you
+  put in `/var/www` survives.
 - **`halt`/`reboot`/`poweroff`/`shutdown` don't work.** They rely on an init
   system (systemd) running as PID 1, which isn't the case here, and
   containers don't have the privilege to actually halt/reboot anyway. To
